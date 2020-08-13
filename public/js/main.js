@@ -51,6 +51,8 @@ function outputMessage(message) {
   <p class="text">
     ${message.text}
   </p>`;
+  var audio = new Audio('juntos.mp3');
+    audio.play();
   document.querySelector('.chat-messages').appendChild(div);
 }
 
