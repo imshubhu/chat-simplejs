@@ -14,6 +14,25 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
+
+//create instance of mysql
+var mysql = require("mysql");
+const { time } = require('console');
+
+//making a connection
+var connection = mysql.createConnection({
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "chat"
+});
+
+//connect
+connection.connect(function(error) {
+    //if any connection errror occur
+
+});
+
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -49,6 +68,9 @@ io.on('connection', socket => {
         const user = getCurrentUser(socket.id);
 
         io.to(user.room).emit('message', formatMessage(user.username, msg));
+
+        //coonect database
+        connection.query("INSERT INTO chatrooms(username, msg, room) VALUES('" + user.username + "', '" + msg + "','" + user.room + "')", function(error, result) {});
     });
 
     // Runs when client disconnects
